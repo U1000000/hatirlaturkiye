@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HATIR'LA TÜRKİYE</title>
+    <script>
+        // Sayfa yüklenmeden önce tema ayarını yapıyoruz
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>HATIR'LA TÜRKİYE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-btn">Zanaat'i Canlandır</a>
+                    <div class="dropdown-content">
+                        <a href="yerinde-izle.html">Yerinde İzle</a>
+                        <a href="hikayesi-sende.html">Hikayesi Sende</a>
+                        <a href="el-emegi-yeniden.html">El Emeği Yeniden</a>
+                    </div>
+                </li>
+                <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                <li><a href="takvim.html">Zanaat Pop-Up Mağazaları</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="categories" style="margin-top: 2.5rem;">
+            <a href="yerinde-izle.html" class="category-card">
+                <i class="fas fa-video"></i>
+                <h3>Yerinde İzle</h3>
+                <p>Ustalardan özel eğitim videoları</p>
+            </a>
+            <a href="hikayesi-sende.html" class="category-card">
+                <i class="fas fa-qrcode"></i>
+                <h3>Hikayesi Sende</h3>
+                <p>Zanaat ürünlerinin arkasındaki hikayeler</p>
+            </a>
+            <a href="el-emegi-yeniden.html" class="category-card">
+                <i class="fas fa-store"></i>
+                <h3>El Emeği Yeniden</h3>
+                <p>Zanaat ürünlerini keşfedin ve satın alın</p>
+            </a>
+            <a href="takvim.html" class="category-card">
+                <i class="fas fa-calendar-alt"></i>
+                <h3>Pop-Up Mağazaları</h3>
+                <p>Zanaat etkinliklerini takip edin</p>
+            </a>
+            <a href="hakkimizda.html" class="category-card">
+                <i class="fas fa-info-circle"></i>
+                <h3>Hakkımızda</h3>
+                <p>Projemizi ve ekibimizi tanıyın</p>
+            </a>
+        </section>
+
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Geleneksel Türk Zanaatlarını Keşfedin</h2>
+                <p>Unutulmaya yüz tutmuş el sanatlarımızı yaşatmak için bizimle yolculuğa çıkın</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>Email: umurbaysall@gmail.com</p>
+                <p>Telefon: +90 539 611 43 41</p>
+            </div>
+            <div class="footer-section social-section">
+                <h4>Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/umur.lua/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@hzumur" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HATIR'LA TÜRKİYE. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <script>
+        // Dark mode ayarları
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // İkon ayarını güncellemek için
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // İkon değiştirme
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+    </script>
+</body>
+</html> 

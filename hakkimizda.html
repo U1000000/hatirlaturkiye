@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkımızda - HATIR'LA TÜRKİYE</title>
+    <script>
+        // Sayfa yüklenmeden önce tema ayarını yapıyoruz
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .about-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/arka-plan.png');
+            background-size: cover;
+            background-position: center;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-color);
+        }
+
+        .about-content {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .about-section {
+            margin-bottom: 4rem;
+        }
+
+        .about-section h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .about-section p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            text-align: center;
+            padding: 2rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+            object-fit: cover;
+        }
+
+        .team-member h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .mission-vision {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .mission-card, .vision-card {
+            padding: 2rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .mission-card h3, .vision-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>HATIR'LA TÜRKİYE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-btn">Zanaat'i Canlandır</a>
+                    <div class="dropdown-content">
+                        <a href="yerinde-izle.html">Yerinde İzle</a>
+                        <a href="hikayesi-sende.html">Hikayesi Sende</a>
+                        <a href="el-emegi-yeniden.html">El Emeği Yeniden</a>
+                    </div>
+                </li>
+                <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                <li><a href="takvim.html">Zanaat Pop-Up Mağazaları</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="about-hero">
+            <div class="hero-content">
+                <h2>Hakkımızda</h2>
+                <p>Geleneksel Türk zanaatlarını yaşatmak için çalışıyoruz</p>
+            </div>
+        </section>
+
+        <section class="about-content">
+            <div class="about-section">
+                <h2>Biz Kimiz?</h2>
+                <p>HATIR'LA TÜRKİYE olarak, unutulmaya yüz tutmuş geleneksel Türk zanaatlarını yaşatmak ve gelecek nesillere aktarmak için çalışıyoruz. Amacımız, bu değerli el sanatlarını modern dünyaya uyarlayarak sürdürülebilir kılmak ve zanaatkarlarımızın emeklerini desteklemektir.</p>
+            </div>
+
+            <div class="mission-vision">
+                <div class="mission-card">
+                    <h3>Misyonumuz</h3>
+                    <p>Geleneksel Türk zanaatlarını korumak, yaşatmak ve gelecek nesillere aktarmak için çalışmak. Zanaatkarlarımızın emeklerini değerlendirmek ve bu değerli kültürel mirası modern dünyaya uyarlayarak sürdürülebilir kılmak.</p>
+                </div>
+                <div class="vision-card">
+                    <h3>Vizyonumuz</h3>
+                    <p>Her bireyin geleneksel zanaatlarımızı tanıması, sevmesi ve bu kültürel mirası yaşatması için çalışmak. Türk zanaatlarını dünya çapında tanınır hale getirmek ve sürdürülebilir bir şekilde gelecek nesillere aktarmak.</p>
+                </div>
+            </div>
+
+            <div class="about-section">
+                <h2>Ekibimiz</h2>
+                <div class="team-grid" style="display: flex; justify-content: center;">
+                    <div class="team-member">
+                        <img src="images/5.png" alt="Ekip Üyesi">
+                        <h3>Umur</h3>
+                        <p>Kurucu</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>Email: umurbaysall@gmail.com</p>
+                <p>Telefon: +90 539 611 43 41</p>
+            </div>
+            <div class="footer-section social-section">
+                <h4>Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/umur.lua/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@hzumur" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HATIR'LA TÜRKİYE. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <script>
+        // Dark mode ayarları
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // İkon ayarını güncellemek için
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // İkon değiştirme
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+    </script>
+</body>
+</html> 

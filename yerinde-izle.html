@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yerinde İzle - HATIR'LA TÜRKİYE</title>
+    <script>
+        // Sayfa yüklenmeden önce tema ayarını yapıyoruz
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .video-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/arka-plan.png');
+            background-size: cover;
+            background-position: center;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-color);
+        }
+
+        .video-content {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .video-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .category-card {
+            background: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .category-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .category-info {
+            padding: 1.5rem;
+        }
+
+        .category-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .category-info p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .video-item {
+            background: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .video-item iframe {
+            width: 100%;
+            height: 200px;
+            border: none;
+        }
+
+        .video-details {
+            padding: 1.5rem;
+        }
+
+        .video-details h3 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .video-details p {
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        /* Açıklama bölümü için stil */
+        .video-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+
+        .video-intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .video-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>HATIR'LA TÜRKİYE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-btn">Zanaat'i Canlandır</a>
+                    <div class="dropdown-content">
+                        <a href="yerinde-izle.html">Yerinde İzle</a>
+                        <a href="hikayesi-sende.html">Hikayesi Sende</a>
+                        <a href="el-emegi-yeniden.html">El Emeği Yeniden</a>
+                    </div>
+                </li>
+                <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                <li><a href="takvim.html">Zanaat Pop-Up Mağazaları</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="video-hero">
+            <div class="hero-content">
+                <h2>Yerinde İzle</h2>
+                <p>Ustalardan özel eğitim videoları ile zanaatı öğrenin</p>
+            </div>
+        </section>
+
+        <section class="video-content">
+            <div class="video-intro">
+                <h2>Zanaatı Ustalardan Öğrenin</h2>
+                <p>Türkiye'nin dört bir yanından geleneksel zanaatları icra eden ustalarımızın eğitim videolarına buradan ulaşabilirsiniz. 
+                Bu videolar sayesinde yüzyıllardır süregelen zanaat tekniklerini kendi evinizde öğrenebilir, ustaların deneyimlerinden 
+                faydalanabilirsiniz. Zanaat kültürünü yaşatmak ve gelecek nesillere aktarmak için bu değerli bilgileri paylaşıyoruz.</p>
+            </div>
+
+            <div class="video-categories">
+                <div class="category-card">
+                    <img src="images/3.png" alt="Ahşap İşçiliği">
+                    <div class="category-info">
+                        <h3>Ahşap İşçiliği</h3>
+                        <p>Geleneksel Türk ahşap işçiliğinin inceliklerini öğrenin</p>
+                        <a href="#" class="btn">Videoları İzle</a>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="images/1.png" alt="Seramik">
+                    <div class="category-info">
+                        <h3>Seramik</h3>
+                        <p>Binlerce yıllık seramik sanatını keşfedin</p>
+                        <a href="#" class="btn">Videoları İzle</a>
+                    </div>
+                </div>
+                <div class="category-card">
+                    <img src="images/2.png" alt="Ebru">
+                    <div class="category-info">
+                        <h3>Ebru</h3>
+                        <p>Su üzerinde dans eden renkleri öğrenin</p>
+                        <a href="#" class="btn">Videoları İzle</a>
+                    </div>
+                </div>
+            </div>
+
+            <h2 style="margin-bottom: 2rem;">Öne Çıkan Videolar</h2>
+            <div class="video-grid">
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    <div class="video-details">
+                        <h3>Ahşap Oyma Teknikleri</h3>
+                        <p>Usta Mehmet Bey'den ahşap oyma sanatının incelikleri</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    <div class="video-details">
+                        <h3>Geleneksel Seramik Yapımı</h3>
+                        <p>Seramik ustası Ayşe Hanım ile çömlek yapımı</p>
+                    </div>
+                </div>
+                <div class="video-item">
+                    <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe>
+                    <div class="video-details">
+                        <h3>Ebru Sanatı Başlangıç</h3>
+                        <p>Ebru sanatçısı Zeynep Hanım ile temel teknikler</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>Email: umurbaysall@gmail.com</p>
+                <p>Telefon: +90 539 611 43 41</p>
+            </div>
+            <div class="footer-section social-section">
+                <h4>Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/umur.lua/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@hzumur" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HATIR'LA TÜRKİYE. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <script>
+        // Dark mode ayarları
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // İkon ayarını güncellemek için
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // İkon değiştirme
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+    </script>
+</body>
+</html> 

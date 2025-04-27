@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hikayesi Sende - HATIR'LA TÜRKİYE</title>
+    <script>
+        // Sayfa yüklenmeden önce tema ayarını yapıyoruz
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .story-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/arka-plan.png');
+            background-size: cover;
+            background-position: center;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-color);
+        }
+
+        .story-content {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .story-intro {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .story-intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .story-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            font-size: 1.1rem;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .story-card {
+            background: var(--light-color);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .story-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .story-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .story-info {
+            padding: 1.5rem;
+        }
+
+        .story-info h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .story-info p {
+            margin-bottom: 1rem;
+            color: var(--text-color);
+        }
+
+        .qr-code {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .qr-code img {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 1rem;
+        }
+
+        .qr-code p {
+            font-size: 0.9rem;
+            color: var(--text-color);
+        }
+
+        .how-it-works {
+            margin-top: 5rem;
+            text-align: center;
+        }
+
+        .how-it-works h2 {
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            padding: 2rem;
+            background: var(--light-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .step i {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>HATIR'LA TÜRKİYE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-btn">Zanaat'i Canlandır</a>
+                    <div class="dropdown-content">
+                        <a href="yerinde-izle.html">Yerinde İzle</a>
+                        <a href="hikayesi-sende.html">Hikayesi Sende</a>
+                        <a href="el-emegi-yeniden.html">El Emeği Yeniden</a>
+                    </div>
+                </li>
+                <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                <li><a href="takvim.html">Zanaat Pop-Up Mağazaları</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="story-hero">
+            <div class="hero-content">
+                <h2>Hikayesi Sende</h2>
+                <p>Her zanaat ürününün arkasında bir hikaye var</p>
+            </div>
+        </section>
+
+        <section class="story-content">
+            <div class="story-intro">
+                <h2>Zanaat Ürünlerinin Hikayeleri</h2>
+                <p>Her zanaat ürünü, onu yapan ustanın emeğini, hayatını ve deneyimlerini taşır. QR kodlarımızla bu hikayelere ulaşın ve zanaat ürünlerinizi daha da değerli kılın.</p>
+            </div>
+
+            <div class="story-grid">
+                <div class="story-card">
+                    <img src="images/ahsap.png" alt="Ahşap Oyma">
+                    <div class="story-info">
+                        <h3>Ahşap Oyma Ustası Mehmet</h3>
+                        <p>50 yıllık tecrübesiyle geleneksel ahşap oyma sanatını yaşatan Mehmet Usta'nın hikayesi...</p>
+                        <div class="qr-code">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hatirlaturkiye.com/hikaye/mehmet" alt="QR Code">
+                            <p>Hikayeyi dinlemek için QR kodu okutun</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <img src="images/seramik.png" alt="Seramik">
+                    <div class="story-info">
+                        <h3>Seramik Sanatçısı Ayşe</h3>
+                        <p>Binlerce yıllık seramik geleneğini modern dünyaya taşıyan Ayşe Hanım'ın yolculuğu...</p>
+                        <div class="qr-code">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hatirlaturkiye.com/hikaye/ayse" alt="QR Code">
+                            <p>Hikayeyi dinlemek için QR kodu okutun</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-card">
+                    <img src="images/ebru.png" alt="Ebru">
+                    <div class="story-info">
+                        <h3>Ebru Sanatçısı Zeynep</h3>
+                        <p>Su üzerinde dans eden renklerin ustası Zeynep Hanım'ın sanat yolculuğu...</p>
+                        <div class="qr-code">
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hatirlaturkiye.com/hikaye/zeynep" alt="QR Code">
+                            <p>Hikayeyi dinlemek için QR kodu okutun</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="how-it-works">
+                <h2>Nasıl Çalışır?</h2>
+                <div class="steps">
+                    <div class="step">
+                        <i class="fas fa-qrcode"></i>
+                        <h3>QR Kodu Okutun</h3>
+                        <p>Zanaat ürününüzün üzerindeki QR kodu telefonunuzla okutun</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-video"></i>
+                        <h3>Hikayeyi İzleyin</h3>
+                        <p>Ustanın hikayesini ve ürünün yapım sürecini izleyin</p>
+                    </div>
+                    <div class="step">
+                        <i class="fas fa-share-alt"></i>
+                        <h3>Paylaşın</h3>
+                        <p>Hikayeyi sevdiklerinizle paylaşın ve zanaat kültürünü yaşatın</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>Email: umurbaysall@gmail.com</p>
+                <p>Telefon: +90 539 611 43 41</p>
+            </div>
+            <div class="footer-section social-section">
+                <h4>Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/umur.lua/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@hzumur" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HATIR'LA TÜRKİYE. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <script>
+        // Dark mode ayarları
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // İkon ayarını güncellemek için
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // İkon değiştirme
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+    </script>
+</body>
+</html> 

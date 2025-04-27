@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zanaat Pop-Up Mağazaları - HATIR'LA TÜRKİYE</title>
+    <script>
+        // Sayfa yüklenmeden önce tema ayarını yapıyoruz
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        })();
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .calendar-hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('images/arka-plan.png');
+            background-size: cover;
+            background-position: center;
+            height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-color);
+        }
+
+        .calendar-content {
+            padding: 5rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .calendar-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 0 2rem;
+        }
+
+        .calendar-intro h2 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .calendar-intro p {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        .filter-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .city-selector {
+            position: relative;
+            min-width: 250px;
+        }
+
+        .city-selector select {
+            padding: 0.8rem 1.5rem;
+            font-size: 1.1rem;
+            width: 100%;
+            border: 2px solid var(--primary-color);
+            border-radius: 8px;
+            background: var(--light-color);
+            cursor: pointer;
+            appearance: none;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+
+        .city-selector::after {
+            content: '\f078';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--primary-color);
+            pointer-events: none;
+            font-size: 1rem;
+        }
+
+        .city-selector select:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        .city-selector select:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .city-selector::before {
+            content: 'Şehir Seç:';
+            position: absolute;
+            top: -25px;
+            left: 0;
+            font-size: 0.9rem;
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .calendar-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .month-nav {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: var(--primary-color);
+            color: var(--light-color);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .nav-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .current-month {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-color);
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .modern-calendar {
+            background: var(--light-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            margin-bottom: 3rem;
+        }
+
+        .calendar-header {
+            background: var(--primary-color);
+            color: var(--light-color);
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .calendar-header h3 {
+            font-size: 1.5rem;
+            margin: 0;
+        }
+
+        .days-row {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: var(--secondary-color);
+            padding: 0.8rem 0;
+        }
+
+        .days-row span {
+            text-align: center;
+            font-weight: 600;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .dates-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            padding: 1rem;
+            gap: 0.5rem;
+        }
+
+        .date-cell {
+            position: relative;
+            aspect-ratio: 1/1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+        }
+
+        .date-cell:hover {
+            background: var(--hover-color, rgba(var(--primary-color-rgb), 0.1));
+            transform: translateY(-2px);
+        }
+
+        .date-cell.inactive {
+            color: var(--secondary-text-color);
+            opacity: 0.5;
+        }
+
+        .date-cell.today {
+            background: var(--accent-color);
+            color: var(--light-color);
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(var(--accent-color-rgb), 0.4);
+        }
+
+        .date-cell.has-event {
+            border-color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .date-cell.has-event::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--primary-color);
+        }
+
+        .date-cell.selected {
+            background: var(--primary-color);
+            color: var(--light-color);
+            font-weight: 700;
+            box-shadow: 0 4px 8px rgba(var(--primary-color-rgb), 0.3);
+        }
+
+        .events-section {
+            margin-top: 2rem;
+        }
+
+        .events-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 0.8rem;
+        }
+
+        .events-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .view-all {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .view-all:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        .event-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .event-card {
+            background: var(--light-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            border-top: 4px solid var(--primary-color);
+        }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .event-card-content {
+            padding: 1.5rem;
+        }
+
+        .event-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: rgba(var(--primary-color-rgb), 0.1);
+            color: var(--primary-color);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+        }
+
+        .event-card h4 {
+            color: var(--text-color);
+            font-size: 1.2rem;
+            margin: 0 0 1rem;
+        }
+
+        .event-card-info {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .event-card-info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-color);
+            font-size: 0.9rem;
+        }
+
+        .event-card-info-item i {
+            color: var(--primary-color);
+            width: 20px;
+            text-align: center;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 0.8rem;
+            background: var(--primary-color);
+            color: var(--light-color);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .register-btn:hover {
+            background: var(--accent-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(var(--accent-color-rgb), 0.4);
+        }
+
+        /* Responsive düzenlemeler */
+        @media (max-width: 768px) {
+            .calendar-controls {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .days-row span {
+                font-size: 0.8rem;
+            }
+
+            .date-cell {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .filter-container {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .city-selector {
+                width: 100%;
+            }
+
+            .date-cell {
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>HATIR'LA TÜRKİYE</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Ana Sayfa</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-btn">Zanaat'i Canlandır</a>
+                    <div class="dropdown-content">
+                        <a href="yerinde-izle.html">Yerinde İzle</a>
+                        <a href="hikayesi-sende.html">Hikayesi Sende</a>
+                        <a href="el-emegi-yeniden.html">El Emeği Yeniden</a>
+                    </div>
+                </li>
+                <li><a href="hakkimizda.html">Hakkımızda</a></li>
+                <li><a href="takvim.html">Zanaat Pop-Up Mağazaları</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calendar-hero">
+            <div class="hero-content">
+                <h2>Zanaat Pop-Up Mağazaları</h2>
+                <p>Geleneksel zanaatları deneyimleyin</p>
+            </div>
+        </section>
+
+        <section class="calendar-content">
+            <div class="calendar-intro">
+                <h2>Zanaat Pop-Up Mağazaları ve Etkinlik Takvimi</h2>
+                <p>Türkiye'nin farklı şehirlerinde düzenlenen zanaat atölyeleri, sergiler ve pop-up mağazalarının takvimini buradan takip edebilirsiniz. Geleneksel el sanatlarını deneyimlemek, ustalarla tanışmak ve kendi zanaat yolculuğunuza başlamak için etkinliklerimize katılın.</p>
+            </div>
+
+            <div class="filter-container">
+                <div class="city-selector">
+                    <select id="citySelector" class="city-selector">
+                        <option value="kocaeli">Kocaeli</option>
+                        <option value="bursa">Bursa</option>
+                        <option value="gumushane">Gümüşhane</option>
+                    </select>
+                </div>
+
+                <div class="calendar-controls">
+                    <div class="month-nav">
+                        <button class="nav-btn" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                        <div class="current-month" id="currentMonth">Ocak 2025</div>
+                        <button class="nav-btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modern-calendar">
+                <div class="calendar-header">
+                    <h3 id="calendarTitle">Ocak 2025</h3>
+                </div>
+                <div class="days-row">
+                    <span>Pzt</span>
+                    <span>Sal</span>
+                    <span>Çar</span>
+                    <span>Per</span>
+                    <span>Cum</span>
+                    <span>Cmt</span>
+                    <span>Paz</span>
+                </div>
+                <div class="dates-grid" id="datesGrid">
+                    <!-- Bu kısım JavaScript ile doldurulacak -->
+                </div>
+            </div>
+
+            <div class="events-section">
+                <div class="events-header">
+                    <h3>Seçili Ayın Etkinlikleri</h3>
+                </div>
+                <div class="event-cards" id="eventsList">
+                    <!-- Etkinlikler JavaScript ile doldurulacak -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>İletişim</h4>
+                <p>Email: umurbaysall@gmail.com</p>
+                <p>Telefon: +90 539 611 43 41</p>
+            </div>
+            <div class="footer-section social-section">
+                <h4>Sosyal Medya</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/umur.lua/" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.tiktok.com/@hzumur" target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 HATIR'LA TÜRKİYE. Tüm hakları saklıdır.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <button class="theme-toggle" id="themeToggle">
+        <i class="fas fa-moon"></i>
+    </button>
+    <script>
+        // Dark mode ayarları
+        const themeToggle = document.getElementById('themeToggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // İkon ayarını güncellemek için
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = themeToggle.querySelector('i');
+        icon.className = currentTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // İkon değiştirme
+            const icon = themeToggle.querySelector('i');
+            icon.className = newTheme === 'dark' ? 'fas fa-moon' : 'fas fa-sun';
+        });
+
+        // Takvim işlevselliği
+        document.addEventListener('DOMContentLoaded', function() {
+            // Aylar
+            const months = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"];
+            
+            // Takvim değişkenleri
+            let currentMonth = 0; // Ocak
+            let currentYear = 2025; // 2025 Yılı (Varsayılan)
+            let selectedCity = "kocaeli"; // Varsayılan şehir
+            
+            // DOM Elementleri
+            const calendarTitle = document.getElementById('calendarTitle');
+            const datesGrid = document.getElementById('datesGrid');
+            const eventsList = document.getElementById('eventsList');
+            const currentMonthDisplay = document.getElementById('currentMonth');
+            const prevMonthBtn = document.getElementById('prevMonth');
+            const nextMonthBtn = document.getElementById('nextMonth');
+            const citySelector = document.getElementById('citySelector');
+
+            // Etkinlik verileri - Her ay için etkinlik ekliyoruz
+            const events = {
+                "kocaeli": {
+                    "2025-01-03": [
+                        {
+                            title: "Ahşap Oyma Atölyesi",
+                            time: "14:00 - 17:00",
+                            location: "Zanaat Merkezi, Kocaeli",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Mehmet Usta"
+                        }
+                    ],
+                    "2025-01-06": [
+                        {
+                            title: "Ebru Sanatı Atölyesi",
+                            time: "15:00 - 18:00",
+                            location: "Kültür Merkezi, İzmit",
+                            category: "Ebru Sanatı",
+                            instructor: "Zeynep Hanım"
+                        }
+                    ],
+                    "2025-01-10": [
+                        {
+                            title: "Seramik Yapım Atölyesi",
+                            time: "13:00 - 16:00",
+                            location: "Sanat Evi, İzmit",
+                            category: "Seramik",
+                            instructor: "Ayşe Hanım"
+                        }
+                    ],
+                    "2025-01-15": [
+                        {
+                            title: "Geleneksel Kilim Dokuma",
+                            time: "10:00 - 14:00",
+                            location: "El Sanatları Merkezi, Kocaeli",
+                            category: "Dokuma",
+                            instructor: "Fatma Usta"
+                        }
+                    ],
+                    "2025-01-20": [
+                        {
+                            title: "Vitray Yapım Atölyesi",
+                            time: "16:00 - 19:00",
+                            location: "Sanat Atölyesi, Kocaeli",
+                            category: "Cam İşleme",
+                            instructor: "Ali Usta"
+                        }
+                    ],
+                    "2025-01-28": [
+                        {
+                            title: "Bakır Dövme Sanatı",
+                            time: "12:00 - 15:00",
+                            location: "Zanaat Merkezi, Kocaeli",
+                            category: "Bakır İşleme",
+                            instructor: "Hasan Usta"
+                        }
+                    ],
+                    "2025-02-05": [
+                        {
+                            title: "Ebru Sanatı Atölyesi",
+                            time: "10:00 - 12:30",
+                            location: "Kültür Merkezi, Gebze",
+                            category: "Ebru",
+                            instructor: "Ali Öztürk"
+                        }
+                    ],
+                    "2025-02-18": [
+                        {
+                            title: "Dokuma Atölyesi",
+                            time: "11:00 - 14:00",
+                            location: "El Sanatları Merkezi, Kocaeli",
+                            category: "Dokuma",
+                            instructor: "Fatma Demir"
+                        }
+                    ],
+                    "2025-03-10": [
+                        {
+                            title: "Bakır İşleme Atölyesi",
+                            time: "13:00 - 15:30",
+                            location: "Zanaat Merkezi, Kocaeli",
+                            category: "Metal İşçiliği",
+                            instructor: "Hasan Usta"
+                        }
+                    ],
+                    "2025-03-22": [
+                        {
+                            title: "Ahşap Oymacılık İleri Seviye",
+                            time: "14:00 - 17:00",
+                            location: "Sanat Atölyesi, İzmit",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Mehmet Usta"
+                        }
+                    ],
+                    "2025-04-05": [
+                        {
+                            title: "Seramik Sırlama Teknikleri",
+                            time: "10:00 - 13:00",
+                            location: "Sanat Evi, İzmit",
+                            category: "Seramik",
+                            instructor: "Ayşe Hanım"
+                        }
+                    ],
+                    "2025-04-18": [
+                        {
+                            title: "Modern Dokuma Teknikleri",
+                            time: "13:00 - 16:00",
+                            location: "El Sanatları Merkezi, Kocaeli",
+                            category: "Dokuma",
+                            instructor: "Fatma Usta"
+                        }
+                    ],
+                    "2025-05-12": [
+                        {
+                            title: "Vitray Sanatı İleri Seviye",
+                            time: "15:00 - 18:00",
+                            location: "Sanat Atölyesi, Kocaeli",
+                            category: "Cam İşleme",
+                            instructor: "Ali Usta"
+                        }
+                    ],
+                    "2025-05-25": [
+                        {
+                            title: "Ebru Sanatında Kompozisyon",
+                            time: "11:00 - 14:00",
+                            location: "Kültür Merkezi, İzmit",
+                            category: "Ebru Sanatı",
+                            instructor: "Zeynep Hanım"
+                        }
+                    ],
+                    "2025-06-08": [
+                        {
+                            title: "Ahşap Boyama Sanatı",
+                            time: "14:00 - 17:00",
+                            location: "Zanaat Merkezi, Kocaeli",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Mehmet Usta"
+                        }
+                    ],
+                    "2025-06-20": [
+                        {
+                            title: "Bakır Kabartma Teknikleri",
+                            time: "13:00 - 16:00",
+                            location: "Sanat Atölyesi, İzmit",
+                            category: "Metal İşçiliği",
+                            instructor: "Hasan Usta"
+                        }
+                    ]
+                },
+                "bursa": {
+                    "2025-01-08": [
+                        {
+                            title: "İpek Dokuma Gösterimi",
+                            time: "13:00 - 15:00",
+                            location: "Tarihi İpek Han, Bursa",
+                            category: "Dokuma",
+                            instructor: "Hasan Yıldız"
+                        }
+                    ],
+                    "2025-01-17": [
+                        {
+                            title: "Cam Boyama Atölyesi",
+                            time: "15:00 - 17:00",
+                            location: "Sanat Atölyesi, Bursa",
+                            category: "Cam İşçiliği",
+                            instructor: "Zeynep Aydın"
+                        }
+                    ],
+                    "2025-02-12": [
+                        {
+                            title: "İpek Kumaş Boyama",
+                            time: "10:00 - 13:00",
+                            location: "Tarihi İpek Han, Bursa",
+                            category: "Dokuma",
+                            instructor: "Hasan Yıldız"
+                        }
+                    ],
+                    "2025-02-24": [
+                        {
+                            title: "Seramik Vazo Yapımı",
+                            time: "14:00 - 17:00",
+                            location: "Sanat Atölyesi, Bursa",
+                            category: "Seramik",
+                            instructor: "Ayşe Kaya"
+                        }
+                    ],
+                    "2025-03-15": [
+                        {
+                            title: "Ahşap Oyma Atölyesi",
+                            time: "14:00 - 17:00",
+                            location: "Zanaat Merkezi, Bursa",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Mehmet Yılmaz"
+                        }
+                    ],
+                    "2025-03-28": [
+                        {
+                            title: "İpek Halı Dokuma",
+                            time: "10:00 - 13:00",
+                            location: "Tarihi İpek Han, Bursa",
+                            category: "Dokuma",
+                            instructor: "Hasan Yıldız"
+                        }
+                    ],
+                    "2025-04-10": [
+                        {
+                            title: "Cam Süsleme Teknikleri",
+                            time: "15:00 - 17:00",
+                            location: "Sanat Atölyesi, Bursa",
+                            category: "Cam İşçiliği",
+                            instructor: "Zeynep Aydın"
+                        }
+                    ],
+                    "2025-04-22": [
+                        {
+                            title: "Ebru Sanatı Gösterimi",
+                            time: "14:00 - 16:00",
+                            location: "Kültür Merkezi, Bursa",
+                            category: "Ebru Sanatı",
+                            instructor: "Ali Öztürk"
+                        }
+                    ],
+                    "2025-05-05": [
+                        {
+                            title: "Seramik Tabak Yapımı",
+                            time: "10:00 - 13:00",
+                            location: "Sanat Evi, Bursa",
+                            category: "Seramik",
+                            instructor: "Ayşe Kaya"
+                        }
+                    ],
+                    "2025-05-18": [
+                        {
+                            title: "Ahşap Oyuncak Yapımı",
+                            time: "14:00 - 16:30",
+                            location: "Zanaat Merkezi, Bursa",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Mehmet Yılmaz"
+                        }
+                    ],
+                    "2025-06-08": [
+                        {
+                            title: "İpek Dokuma Atölyesi",
+                            time: "13:00 - 16:00",
+                            location: "Tarihi İpek Han, Bursa",
+                            category: "Dokuma",
+                            instructor: "Hasan Yıldız"
+                        }
+                    ],
+                    "2025-06-20": [
+                        {
+                            title: "Cam Abajur Yapımı",
+                            time: "15:00 - 18:00",
+                            location: "Sanat Atölyesi, Bursa",
+                            category: "Cam İşçiliği",
+                            instructor: "Zeynep Aydın"
+                        }
+                    ]
+                },
+                "gumushane": {
+                    "2025-01-15": [
+                        {
+                            title: "Gümüş İşleme Sanatı",
+                            time: "14:00 - 16:30",
+                            location: "Zanaat Merkezi, Gümüşhane",
+                            category: "Metal İşçiliği",
+                            instructor: "Kemal Şahin"
+                        }
+                    ],
+                    "2025-01-28": [
+                        {
+                            title: "Yöresel Ahşap Oymacılık",
+                            time: "10:00 - 13:00",
+                            location: "Kültür Evi, Gümüşhane",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Ahmet Yılmaz"
+                        }
+                    ],
+                    "2025-02-10": [
+                        {
+                            title: "Bakır İşleme Sanatı",
+                            time: "13:00 - 16:00",
+                            location: "Zanaat Merkezi, Gümüşhane",
+                            category: "Metal İşçiliği",
+                            instructor: "Kemal Şahin"
+                        }
+                    ],
+                    "2025-02-22": [
+                        {
+                            title: "Yöresel Dokuma Teknikleri",
+                            time: "10:00 - 13:00",
+                            location: "Kültür Evi, Gümüşhane",
+                            category: "Dokuma",
+                            instructor: "Ayşe Yılmaz"
+                        }
+                    ],
+                    "2025-03-10": [
+                        {
+                            title: "Gümüş Takı Yapımı",
+                            time: "14:00 - 17:00",
+                            location: "Zanaat Merkezi, Gümüşhane",
+                            category: "Metal İşçiliği",
+                            instructor: "Kemal Şahin"
+                        }
+                    ],
+                    "2025-03-20": [
+                        {
+                            title: "Ahşap İşleme Atölyesi",
+                            time: "13:00 - 16:00",
+                            location: "Sanat Evi, Gümüşhane",
+                            category: "Ahşap İşçiliği",
+                            instructor: "Ahmet Yılmaz"
+                        }
+                    ],
+                    "2025-04-05": [
+                        {
+                            title: "Kilim Dokuma Teknikleri",
+                            time: "10:00 - 13:00",
+                            location: "Kültür Evi, Gümüşhane",
+                            category: "Dokuma",
+                            instructor: "Ayşe Yılmaz"
+                        }
+                    ],
+                    "2025-04-15": [
+                        {
+                            title: "Seramik Yapım Atölyesi",
+                            time: "14:00 - 17:00",
+                            location: "Sanat Evi, Gümüşhane",
+                            category: "Seramik",
+                            instructor: "Fatma Kaya"
+                        }
+                    ],
+                    "2025-05-08": [
+                        {
+                            title: "Bakır Kabartma Sanatı",
+                            time: "13:00 - 16:00",
+                            location: "Zanaat Merkezi, Gümüşhane",
+                            category: "Metal İşçiliği",
+                            instructor: "Kemal Şahin"
+                        }
+                    ],
+                    "2025-05-22": [
+                        {
+                            title: "Ebru Sanatı Atölyesi",
+                            time: "11:00 - 14:00",
+                            location: "Kültür Evi, Gümüşhane",
+                            category: "Ebru",
+                            instructor: "Mustafa Öztürk"
+                        }
+                    ],
+                    "2025-06-10": [
+                        {
+                            title: "Yöresel Dokuma Gösterimi",
+                            time: "10:00 - 12:30",
+                            location: "Kültür Evi, Gümüşhane",
+                            category: "Dokuma",
+                            instructor: "Ayşe Yılmaz"
+                        }
+                    ],
+                    "2025-06-15": [
+                        {
+                            title: "Gümüş İşleme İleri Seviye",
+                            time: "13:00 - 16:00",
+                            location: "Zanaat Merkezi, Gümüşhane",
+                            category: "Metal İşçiliği",
+                            instructor: "Kemal Şahin"
+                        }
+                    ]
+                }
+            };
+
+            // Takvimi oluştur
+            function renderCalendar(month, year) {
+                // Ay ve yıl başlıklarını güncelle
+                calendarTitle.textContent = `${months[month]} ${year}`;
+                currentMonthDisplay.textContent = `${months[month]} ${year}`;
+                
+                // Takvim günlerini temizle
+                datesGrid.innerHTML = '';
+                
+                // Ayın ilk gününü al (0: Pazar, 1: Pazartesi, ...)
+                const firstDay = new Date(year, month, 1).getDay();
+                
+                // Ayın son gününü al
+                const lastDate = new Date(year, month + 1, 0).getDate();
+                
+                // Önceki ayın son gününü al
+                const prevMonthLastDate = new Date(year, month, 0).getDate();
+                
+                // Haftanın günü ayarlaması (Pazartesi: 0, ... Pazar: 6)
+                const firstWeekday = firstDay === 0 ? 6 : firstDay - 1;
+                
+                // Bugünün tarihini al
+                const today = new Date();
+                
+                // Önceki ayın günlerini ekle
+                for (let i = firstWeekday - 1; i >= 0; i--) {
+                    const dayEl = document.createElement('div');
+                    dayEl.classList.add('date-cell', 'inactive');
+                    dayEl.textContent = prevMonthLastDate - i;
+                    datesGrid.appendChild(dayEl);
+                }
+                
+                // Mevcut ayın günlerini ekle
+                for (let i = 1; i <= lastDate; i++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.classList.add('date-cell');
+                    dayEl.textContent = i;
+                    
+                    // Bugünün tarihini vurgula
+                    if (year === today.getFullYear() && month === today.getMonth() && i === today.getDate()) {
+                        dayEl.classList.add('today');
+                    }
+                    
+                    // Etkinliği olan günleri işaretle
+                    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(i).padStart(2, '0')}`;
+                    
+                    if (events[selectedCity] && events[selectedCity][dateStr]) {
+                        dayEl.classList.add('has-event');
+                        
+                        // Etkinlik olan günlere tıklama işlevi ekle
+                        dayEl.addEventListener('click', function() {
+                            displayEvents(dateStr);
+                            // Seçili günü vurgula
+                            document.querySelectorAll('.date-cell').forEach(cell => {
+                                cell.classList.remove('selected');
+                            });
+                            this.classList.add('selected');
+                        });
+                    }
+                    
+                    datesGrid.appendChild(dayEl);
+                }
+                
+                // Sonraki ayın günlerini ekle (42 günlük bir ızgara oluştur - 6 satır x 7 gün)
+                const remainingCells = 42 - (firstWeekday + lastDate);
+                for (let i = 1; i <= remainingCells; i++) {
+                    const dayEl = document.createElement('div');
+                    dayEl.classList.add('date-cell', 'inactive');
+                    dayEl.textContent = i;
+                    datesGrid.appendChild(dayEl);
+                }
+                
+                // Mevcut ayın etkinliklerini göster
+                displayUpcomingEvents();
+            }
+            
+            // Belirli bir tarihteki etkinlikleri göster
+            function displayEvents(dateStr) {
+                eventsList.innerHTML = '';
+                
+                // Başlık ekle
+                const header = document.createElement('h3');
+                header.textContent = 'Seçilen Tarih Etkinlikleri';
+                header.style.textAlign = 'center';
+                header.style.marginBottom = '1rem';
+                header.style.color = 'var(--primary-color)';
+                eventsList.appendChild(header);
+                
+                if (!events[selectedCity] || !events[selectedCity][dateStr]) {
+                    const noEvent = document.createElement('p');
+                    noEvent.textContent = 'Bu tarihte etkinlik bulunmamaktadır.';
+                    noEvent.style.textAlign = 'center';
+                    noEvent.style.padding = '2rem';
+                    eventsList.appendChild(noEvent);
+                    return;
+                }
+                
+                const dateParts = dateStr.split('-');
+                const eventDate = new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2]);
+                const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+                
+                const dateHeader = document.createElement('h4');
+                dateHeader.textContent = `${dateParts[2]} ${months[parseInt(dateParts[1]) - 1]} ${dateParts[0]}, ${dayNames[eventDate.getDay()]}`;
+                dateHeader.style.marginBottom = '1.5rem';
+                dateHeader.style.textAlign = 'center';
+                dateHeader.style.color = 'var(--text-color)';
+                eventsList.appendChild(dateHeader);
+                
+                // Etkinlikleri listele
+                const eventsContainer = document.createElement('div');
+                eventsContainer.className = 'event-cards';
+                eventsContainer.style.display = 'flex';  // Yatay sıralama için flex kullan
+                eventsContainer.style.flexWrap = 'wrap'; // Gerekirse alt satıra geçebilir
+                eventsContainer.style.gap = '1.5rem';    // Kartlar arası boşluk
+                eventsContainer.style.justifyContent = 'center'; // Merkezde hizala
+                
+                events[selectedCity][dateStr].forEach(event => {
+                    // Etkinlik kartı oluştur
+                    const eventCard = document.createElement('div');
+                    eventCard.className = 'event-card';
+                    eventCard.style.flex = '1'; // Esnek genişlik
+                    eventCard.style.minWidth = '300px'; // Minimum genişlik
+                    eventCard.style.maxWidth = '400px'; // Maksimum genişlik
+                    
+                    // Etkinlik içeriği
+                    const cardContent = document.createElement('div');
+                    cardContent.className = 'event-card-content';
+                    
+                    // Kategori
+                    const category = document.createElement('span');
+                    category.className = 'event-category';
+                    category.textContent = event.category;
+                    cardContent.appendChild(category);
+                    
+                    // Başlık
+                    const title = document.createElement('h4');
+                    title.textContent = event.title;
+                    cardContent.appendChild(title);
+                    
+                    // Bilgi bölümü
+                    const infoDiv = document.createElement('div');
+                    infoDiv.className = 'event-card-info';
+                    
+                    // Eğitmen
+                    const instructorInfo = document.createElement('div');
+                    instructorInfo.className = 'event-card-info-item';
+                    instructorInfo.innerHTML = `<i class="fas fa-user"></i> <span>${event.instructor}</span>`;
+                    infoDiv.appendChild(instructorInfo);
+                    
+                    // Saat
+                    const timeInfo = document.createElement('div');
+                    timeInfo.className = 'event-card-info-item';
+                    timeInfo.innerHTML = `<i class="fas fa-clock"></i> <span>${event.time}</span>`;
+                    infoDiv.appendChild(timeInfo);
+                    
+                    // Konum
+                    const locationInfo = document.createElement('div');
+                    locationInfo.className = 'event-card-info-item';
+                    locationInfo.innerHTML = `<i class="fas fa-map-marker-alt"></i> <span>${event.location}</span>`;
+                    infoDiv.appendChild(locationInfo);
+                    
+                    cardContent.appendChild(infoDiv);
+                    
+                    // Kayıt Ol butonu
+                    const registerBtn = document.createElement('button');
+                    registerBtn.className = 'register-btn';
+                    registerBtn.textContent = 'Kayıt Ol';
+                    registerBtn.addEventListener('click', function() {
+                        alert(`${event.title} etkinliğine kaydınız alınmıştır.`);
+                    });
+                    cardContent.appendChild(registerBtn);
+                    
+                    eventCard.appendChild(cardContent);
+                    eventsContainer.appendChild(eventCard);
+                });
+                
+                eventsList.appendChild(eventsContainer);
+            }
+            
+            // Yaklaşan etkinlikleri göster
+            function displayUpcomingEvents() {
+                eventsList.innerHTML = '';
+                
+                // Başlık ekle
+                const header = document.createElement('h3');
+                header.textContent = 'Yaklaşan Etkinlikler';
+                eventsList.appendChild(header);
+                
+                if (!events[selectedCity]) {
+                    const noEvent = document.createElement('p');
+                    noEvent.textContent = 'Bu şehirde etkinlik bulunmamaktadır.';
+                    noEvent.style.textAlign = 'center';
+                    noEvent.style.padding = '2rem';
+                    eventsList.appendChild(noEvent);
+                    return;
+                }
+                
+                // Etkinlik tarihlerini alıp sıralama
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                const eventDates = Object.keys(events[selectedCity]).filter(dateStr => {
+                    const [year, month, day] = dateStr.split('-').map(Number);
+                    const eventDate = new Date(year, month - 1, day);
+                    return eventDate >= today;
+                }).sort();
+                
+                if (eventDates.length === 0) {
+                    const noEvent = document.createElement('p');
+                    noEvent.textContent = 'Yaklaşan etkinlik bulunmamaktadır.';
+                    noEvent.style.textAlign = 'center';
+                    noEvent.style.padding = '2rem';
+                    eventsList.appendChild(noEvent);
+                    return;
+                }
+                
+                // İlk 3 etkinliği göster
+                const upcomingDates = eventDates.slice(0, 3);
+                
+                // Etkinlikleri listele
+                const eventsContainer = document.createElement('div');
+                eventsContainer.className = 'event-cards';
+                eventsContainer.style.display = 'flex';  // Yatay sıralama için flex kullan
+                eventsContainer.style.flexWrap = 'wrap'; // Gerekirse alt satıra geçebilir
+                eventsContainer.style.gap = '1.5rem';   // Kartlar arası boşluk
+                eventsContainer.style.justifyContent = 'center'; // Merkezde hizala
+                
+                let eventCount = 0;
+                const maxEvents = 3; // Gösterilecek maksimum etkinlik sayısı
+                
+                for (let i = 0; i < upcomingDates.length && eventCount < maxEvents; i++) {
+                    const dateStr = upcomingDates[i];
+                    const dateParts = dateStr.split('-');
+                    const eventDate = new Date(dateParts[0], parseInt(dateParts[1]) - 1, dateParts[2]);
+                    const dayNames = ['Pazar', 'Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi'];
+                    
+                    for (let j = 0; j < events[selectedCity][dateStr].length && eventCount < maxEvents; j++) {
+                        const event = events[selectedCity][dateStr][j];
+                        
+                        // Etkinlik kartı oluştur
+                        const eventCard = document.createElement('div');
+                        eventCard.className = 'event-card';
+                        eventCard.style.flex = '1'; // Esnek genişlik
+                        eventCard.style.minWidth = '300px'; // Minimum genişlik
+                        eventCard.style.maxWidth = '400px'; // Maksimum genişlik
+                        
+                        // Etkinlik içeriği
+                        const cardContent = document.createElement('div');
+                        cardContent.className = 'event-card-content';
+                        
+                        // Kategori
+                        const category = document.createElement('span');
+                        category.className = 'event-category';
+                        category.textContent = event.category;
+                        cardContent.appendChild(category);
+                        
+                        // Başlık
+                        const title = document.createElement('h4');
+                        title.textContent = event.title;
+                        cardContent.appendChild(title);
+                        
+                        // Bilgi bölümü
+                        const infoDiv = document.createElement('div');
+                        infoDiv.className = 'event-card-info';
+                        
+                        // Tarih
+                        const dateInfo = document.createElement('div');
+                        dateInfo.className = 'event-card-info-item';
+                        dateInfo.innerHTML = `<i class="fas fa-calendar-alt"></i> <span>${dateParts[2]} ${months[parseInt(dateParts[1]) - 1]} ${dateParts[0]}, ${dayNames[eventDate.getDay()]}</span>`;
+                        infoDiv.appendChild(dateInfo);
+                        
+                        // Eğitmen
+                        const instructorInfo = document.createElement('div');
+                        instructorInfo.className = 'event-card-info-item';
+                        instructorInfo.innerHTML = `<i class="fas fa-user"></i> <span>${event.instructor}</span>`;
+                        infoDiv.appendChild(instructorInfo);
+                        
+                        // Saat
+                        const timeInfo = document.createElement('div');
+                        timeInfo.className = 'event-card-info-item';
+                        timeInfo.innerHTML = `<i class="fas fa-clock"></i> <span>${event.time}</span>`;
+                        infoDiv.appendChild(timeInfo);
+                        
+                        // Konum
+                        const locationInfo = document.createElement('div');
+                        locationInfo.className = 'event-card-info-item';
+                        locationInfo.innerHTML = `<i class="fas fa-map-marker-alt"></i> <span>${event.location}</span>`;
+                        infoDiv.appendChild(locationInfo);
+                        
+                        cardContent.appendChild(infoDiv);
+                        
+                        // Kayıt Ol butonu
+                        const registerBtn = document.createElement('button');
+                        registerBtn.className = 'register-btn';
+                        registerBtn.textContent = 'Kayıt Ol';
+                        registerBtn.addEventListener('click', function() {
+                            alert(`${event.title} etkinliğine kaydınız alınmıştır.`);
+                        });
+                        cardContent.appendChild(registerBtn);
+                        
+                        eventCard.appendChild(cardContent);
+                        eventsContainer.appendChild(eventCard);
+                        
+                        eventCount++;
+                    }
+                }
+                
+                eventsList.appendChild(eventsContainer);
+            }
+            
+            // Önceki ve sonraki ay butonları
+            prevMonthBtn.addEventListener('click', function() {
+                // Ocak 2025'ten geriye gitmeyi engelle
+                if (currentYear === 2025 && currentMonth === 0) {
+                    return;
+                }
+                
+                currentMonth--;
+                if (currentMonth < 0) {
+                    currentMonth = 11;
+                    currentYear--;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            nextMonthBtn.addEventListener('click', function() {
+                currentMonth++;
+                if (currentMonth > 11) {
+                    currentMonth = 0;
+                    currentYear++;
+                }
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            // Şehir seçimi
+            citySelector.addEventListener('change', function() {
+                selectedCity = this.value;
+                renderCalendar(currentMonth, currentYear);
+            });
+            
+            // Takvimi başlat
+            renderCalendar(currentMonth, currentYear);
+        });
+    </script>
+</body>
+</html> 
